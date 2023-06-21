@@ -1,4 +1,6 @@
 /.venv
 /.vscode
-/myfinances.bd
 /__pycache__
+/build
+/myfinances.bd
+/setup.py
