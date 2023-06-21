@@ -20,7 +20,3 @@ pode melhorar para atingir seus objetivos.
  <img src="https://github.com/alexvcsantos/Gestao_financeira_MyFinances/blob/main/tela-sistema-home.png"/> 
 
 </p>
-
-![alt text](https://github.com/alexvcsantos/Gestao_financeira_MyFinances/blob/main/tela-sistema-login.png)
-
-![alt text](https://github.com/alexvcsantos/Gestao_financeira_MyFinances/blob/main/tela-sistema-home.png)
