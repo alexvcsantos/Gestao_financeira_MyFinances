@@ -12,3 +12,7 @@ pode melhorar para atingir seus objetivos.
   
   O sistema diferencia letras maiscúla e minuscúla.
   Usuário e Senha Inicial ( User: admin, Password: admin )
+
+![alt text]([path/to/file](https://github.com/alexvcsantos/Gestao_financeira_MyFinances/blob/main/tela-sistema-login.png)https://github.com/alexvcsantos/Gestao_financeira_MyFinances/blob/main/tela-sistema-login.png)
+
+![alt text]([path/to/file](https://github.com/alexvcsantos/Gestao_financeira_MyFinances/blob/main/tela-sistema-home.png)https://github.com/alexvcsantos/Gestao_financeira_MyFinances/blob/main/tela-sistema-home.png)
