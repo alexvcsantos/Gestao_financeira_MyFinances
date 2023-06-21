@@ -15,9 +15,9 @@ pode melhorar para atingir seus objetivos.
 
 <p float="left">
 
- <img src="https://github.com/alexvcsantos/Gestao_financeira_MyFinances/blob/main/tela-sistema-login.png" width="200" />
+ <img src="https://github.com/alexvcsantos/Gestao_financeira_MyFinances/blob/main/tela-sistema-login.png"/>
 
- <img src="https://github.com/alexvcsantos/Gestao_financeira_MyFinances/blob/main/tela-sistema-home.png" width="200" /> 
+ <img src="https://github.com/alexvcsantos/Gestao_financeira_MyFinances/blob/main/tela-sistema-home.png"/> 
 
 </p>
 
