@@ -15,8 +15,8 @@ class Application(Funcs):
         self.cor_verde2 = '#02735E'
 
         self.janela_login = janela_login
-        self.login()
         self.criar_table()
+        self.login()
         self.janela_login.mainloop()
 
     # Login Page

@@ -31,6 +31,14 @@ class Funcs():
             );
         """)
         self.con.commit()
+        # criar usuário padrão
+        dados_usuario = self.cursor.execute(""" SELECT * FROM usuarios """)
+        # verificar se ja tem algum usuario no sistema
+        if list(dados_usuario) == []:
+            # Cria o usuário admin padrão
+            self.cursor.execute(""" INSERT INTO usuarios (id_usuario, usuario, senha, nome_completo, renda_mensal)
+                                VALUES ('1', 'admin', 'admin', 'Administrador', '10000')""")
+            self.con.commit()
 
         # Criar tabela lancamentos
         self.cursor.execute("""
@@ -133,13 +141,14 @@ class Funcs():
     # carregar informações do usuário banco de dados
     def carrega_usuario(self):
         self.conecta_bd()
-        dados_usuario = self.cursor.execute(""" SELECT * FROM usuarios """)
-        # verificar se ja tem algum usuario no sistema
-        if list(dados_usuario) == []:
-            # Cria o usuário admin padrão
-            self.cursor.execute(""" INSERT INTO usuarios (id_usuario, usuario, senha, nome_completo, renda_mensal)
-                                VALUES ('1', 'admin', 'admin', 'Administrador', '10000')""")
-            self.con.commit()
+        # TODO - apagar depois do testes
+        # dados_usuario = self.cursor.execute(""" SELECT * FROM usuarios """)
+        # # verificar se ja tem algum usuario no sistema
+        # if list(dados_usuario) == []:
+        #     # Cria o usuário admin padrão
+        #     self.cursor.execute(""" INSERT INTO usuarios (id_usuario, usuario, senha, nome_completo, renda_mensal)
+        #                         VALUES ('1', 'admin', 'admin', 'Administrador', '10000')""")
+        #     self.con.commit()
 
         dados_usuario = self.cursor.execute(""" SELECT * FROM usuarios """)
         for self.id, self.usuario, self.senha, self.nome, self.renda in dados_usuario:
@@ -148,7 +157,7 @@ class Funcs():
             self.ent_user.insert(0, self.usuario)
             self.ent_senha.insert(0, self.senha)
             self.ent_nome.insert(0, self.nome)
-            self.ent_renda.insert(0, self.renda)
+            self.ent_renda.insert(0, self.real_br_money_mask(self.renda))
 
         self.desconecta_bd()
 
@@ -157,7 +166,8 @@ class Funcs():
         self.usuario = self.ent_user.get()
         self.senha = self.ent_senha.get()
         self.nome = self.ent_nome.get()
-        self.renda = self.ent_renda.get()
+        self.renda = self.us_money_mask(self.ent_renda.get())
+        print(self.id)
 
         self.conecta_bd()
         self.cursor.execute(""" UPDATE usuarios SET usuario = ?, senha = ?, nome_completo = ?, renda_mensal = ?
@@ -165,6 +175,9 @@ class Funcs():
 
         self.con.commit()
         self.desconecta_bd()
+        self.carrega_usuario()
+        messagebox.showinfo(title='Sucesso',
+                                    message="Dados do Usuário alterado com sucesso.")
 
     # função verificar usuario e senha
     def verificar_usuario(self, usuario, senha):
