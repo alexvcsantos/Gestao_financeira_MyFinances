@@ -145,7 +145,8 @@ class Application(Funcs):
 
         # Scroll - Treeview
         self.lst_lancamentos = ttk.Treeview(
-            columns=("id", "data", "categoria", "valor"), show='headings')
+                                columns=("id", "data", "categoria", "valor"), 
+                                show='headings', selectmode='browse')
         # definir tamanho de cada coluna
         self.lst_lancamentos.column("id", width=15)
         self.lst_lancamentos.column("data", width=85)
@@ -159,9 +160,10 @@ class Application(Funcs):
         # colocar lst_lançamentos na tela
         self.lst_lancamentos.place(x=17, y=175, width=383, height=410)
         # criar barras de rolagem
-        self.scroll_vertical = Scrollbar(orient='vertical')
+        self.scroll_vertical = Scrollbar(orient='vertical', command=self.lst_lancamentos.yview)
         self.lst_lancamentos.configure(yscroll=self.scroll_vertical.set)
         self.scroll_vertical.place(x=400, y=175, width=20, height=410)
+
         # inserir o Bind pra duplo clique
         self.lst_lancamentos.bind("<Double-1>", self.double_click)
 
@@ -192,7 +194,8 @@ class Application(Funcs):
 
         # Scroll Treview - comparativo orçado - real
         self.lst_comparativo = ttk.Treeview(
-            columns=("categoria", "orçado", "real", "diferença"), show='headings')
+                                columns=("categoria", "orçado", "real", "diferença"), 
+                                show='headings', selectmode='browse')
         # definir tamanho de cada coluna
         self.lst_comparativo.column("categoria", width=90)
         self.lst_comparativo.column("orçado", width=40)
@@ -206,7 +209,7 @@ class Application(Funcs):
         # colocar lst_lançamentos na tela
         self.lst_comparativo.place(x=440, y=175, width=325, height=230)
         # criar barras de rolagem
-        self.scroll_vertical = Scrollbar(orient='vertical')
+        self.scroll_vertical = Scrollbar(orient='vertical', command=self.lst_comparativo.yview)
         self.lst_comparativo.configure(yscroll=self.scroll_vertical.set)
         self.scroll_vertical.place(x=765, y=175, width=20, height=230)
 
