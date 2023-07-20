@@ -74,12 +74,33 @@ class Funcs():
         print("Banco de Dados criado")
         self.desconecta_bd()
 
+    ############################# Funções converter moedas ##############################
+
+    def real_br_money_mask(self, valor):    
+        valor = "R$ {:,.2f}".format(valor).replace(',', '_').replace('.', ',').replace('_', '.')
+        return valor
+
+    def us_money_mask(self, valor):
+        valor = float(str(format(valor).replace('R$ ', '').replace(',', '_').replace('.', '').replace('_', '.')))
+        return valor
+
     ############################# Funções Info Janelas ##############################
     # função mudar da tela login para tela cadastro
     def janela_cadastro(self):
-        self.janela_login.destroy()
-        # chama o função cadastro
-        self.cadastro()
+        self.usuario = self.ent_login.get()
+        self.senha = self.ent_senha.get()
+        if self.usuario != "" and self.senha != "":
+            # chama função verificar_usuario
+            if self.verificar_usuario(self.usuario, self.senha):
+                self.janela_login.destroy()
+                # chama o função cadastro
+                self.cadastro()
+            else:
+                messagebox.showinfo(title='ERRO',
+                                    message="Usuário ou Senha Inválido.")
+        else:
+            messagebox.showinfo(title='ERRO',
+                                message="Usuário Inicial admin, Senha inicial admin. Clique no botão Cadastrar para alterar - Usuário e Senha.")
 
     # função mudar da tela login para tela home
     def janela_home(self):
@@ -289,6 +310,7 @@ class Funcs():
         self.data = self.ent_data.get_date()
         self.categoria = self.cbb_categoria.get()
         self.valor = self.ent_valor.get()
+        self.valor = self.us_money_mask(self.valor)
 
         if self.data == "" or self.categoria == "" or self.valor == "":
             messagebox.showinfo(title='ERRO',
@@ -327,7 +349,7 @@ class Funcs():
     def editar(self, *args):
         self.data = self.ent_data.get_date()
         self.categoria = self.cbb_categoria.get()
-        self.valor = self.ent_valor.get()
+        self.valor = self.us_money_mask(self.ent_valor.get())
 
         self.conecta_bd()
         self.cursor.execute(""" UPDATE lancamentos SET data = ?, categoria = ?, valor = ?
@@ -351,6 +373,7 @@ class Funcs():
                     WHERE data BETWEEN '{dt_inicial}' AND '{dt_final}' ORDER BY data """)
 
         for i in lista:
+            i = (i[0], i[1], i[2], self.real_br_money_mask(i[3]))
             self.lst_lancamentos.insert("", "end", values=i)
 
         self.desconecta_bd()
@@ -361,7 +384,8 @@ class Funcs():
         self.total_despesas()
         # Atualiza Superavit/Deficit
         self.ent_superavit.delete(0, 'end')
-        total = float(self.ent_renda.get()) - float(self.ent_total.get())
+        total = self.us_money_mask(self.ent_renda.get()) - self.us_money_mask(self.ent_total.get())
+        total = self.real_br_money_mask(total)
         self.ent_superavit.insert(1, total)
 
     # função calcular total Rendimentos
@@ -380,7 +404,7 @@ class Funcs():
                         ',', '').replace('(', '').replace(')', ''))
             total += res
 
-        self.ent_renda.insert(1, total)
+        self.ent_renda.insert(1, self.real_br_money_mask(total))
         self.desconecta_bd()
 
     # função calcular total Despesas
@@ -399,7 +423,7 @@ class Funcs():
                         ',', '').replace('(', '').replace(')', ''))
             total += res
 
-        self.ent_total.insert(1, total)
+        self.ent_total.insert(1, self.real_br_money_mask(total))
         self.desconecta_bd()
 
     # função preencher a lista de valores orçados x real
@@ -467,6 +491,7 @@ class Funcs():
 
         # Preencher a Lst_comparativo com os valores
         for i in lista_valores:
+            i = (i[0], self.real_br_money_mask(i[1]), self.real_br_money_mask(i[2]), self.real_br_money_mask(i[3]))
             self.lst_comparativo.insert("", "end", values=i)
 
         self.desconecta_bd()
